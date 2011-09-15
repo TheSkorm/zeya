@@ -3,6 +3,7 @@
 // Map from song key to library item. Each library item is an object with
 // attributes .title, .artist, .album, and .key.
 var library;
+var playlist_items = [];
 // Representation of the set of available playlists. Maps a playlist ID to a
 // list of song keys representing that playlist.
 var playlist_map = {};
@@ -56,13 +57,16 @@ function can_play_native_audio() {
 function clear_children(c) {
   while (c.childNodes.length >= 1) {
     c.removeChild(c.firstChild);
-  }
+   }
 }
 
 // Return the DOM id of the row (TR element) corresponding to the specified
 // index.
 function get_row_id_from_index(index) {
   return 'row' + index;
+}
+function get_play_row_id_from_index(index) {
+  return 'play' + index;
 }
 
 // Return the library index corresponding to a given row id.
@@ -73,6 +77,9 @@ function get_index_from_row_id(id) {
 // Return the class to use for the row corresponding to the given index. This
 // determines the color of the row.
 function get_row_class_from_index(index) {
+  return index % 2 === 0 ? 'evenrow' : 'oddrow';
+}
+function get_play_row_class_from_index(index) {
   return index % 2 === 0 ? 'evenrow' : 'oddrow';
 }
 
@@ -95,7 +102,8 @@ function plural(number) {
 
 // Returns an Audio object corresponding to the track with the given key.
 function get_stream(key) {
-  var buffer_param = using_webkit ? 'buffered=true&' : '';
+//  var buffer_param = using_webkit ? 'buffered=true&' : '';
+var buffer_param = '';
   return new Audio('getcontent?' + buffer_param + 'key=' + escape(key));
 }
 
@@ -136,7 +144,7 @@ function set_ui_state(new_state) {
     document.getElementById("play_img").className = 'grayed';
     document.getElementById("pause_img").className = 'grayed';
     document.getElementById("next_img").className = 'grayed';
-  } else if (new_state == 'play') {
+  } else if (new_state == ',play') {
     // 'Play' depressed
     document.getElementById("previous_img").className = '';
     document.getElementById("play_img").className = 'activated';
@@ -178,15 +186,6 @@ function compute_displayed_content(current_playlist, search_query, shuffle) {
     content.push(key);
   }
 
-  // Peform the library shuffle via Durstenfeld's shuffle.
-  if (shuffle) {
-    for (var temp, j, i = content.length; i > 0;) {
-      j = parseInt(Math.random() * i);
-      temp = content[--i];
-      content[i] = content[j];
-      content[j] = temp;
-    }
-  }
 
   // Fix current_index so it points to the currently playing song in the
   // new collection.
@@ -199,6 +198,19 @@ function compute_displayed_content(current_playlist, search_query, shuffle) {
 
   displayed_content = content;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Render a table to display it the collection.
 function render_collection() {
@@ -226,16 +238,17 @@ function render_collection() {
 
     var link = document.createElement('a');
     link.setAttribute('href', '#');
-    link.setAttribute('onclick', 'select_item(' + index + ', true); return false;');
+    link.setAttribute('onclick', 'add_item(' + index + ', true); return false;');
     link.appendChild(document.createTextNode(item.title));
 
+
     var tr = document.createElement('tr');
-    tr.id = get_row_id_from_index(index);
     if (current_index == index) {
       tr.className = 'selectedrow';
     } else {
       tr.className = get_row_class_from_index(index);
     }
+    tr.class = index;
     var td1 = document.createElement('td');
     var td2 = document.createElement('td');
     var td3 = document.createElement('td');
@@ -384,15 +397,7 @@ function repeat() {
 
 // Toggle the 'shuffled' state of the playlist.
 function shuffle() {
-  clear_collection();
   is_shuffled = !is_shuffled;
-  if (is_shuffled) {
-    document.getElementById("shuffle_img").className = 'activated';
-  } else {
-    document.getElementById("shuffle_img").className = '';
-  }
-  compute_displayed_content(current_playlist, search_string, is_shuffled);
-  window.setTimeout("render_collection()", 1);
 }
 
 // Pause the currently playing song.
@@ -446,7 +451,10 @@ function next_index() {
   if (current_index == displayed_content.length - 1) {
     return 0;
   } else {
-    return current_index + 1;
+    if (is_shuffled){
+    return Math.round(Math.random() * (playlist_items.length-1));
+    } else {
+    return current_index + 1;}
   }
 }
 
@@ -512,6 +520,37 @@ function preload_song() {
   }
 }
 
+function add_item(index,stuff) {
+    id = playlist_items.push(library[displayed_content[index]].key) - 1;
+    var t = document.getElementById("playlist_table");
+    var item = library[displayed_content[index]];
+
+    var link = document.createElement('a');
+    link.setAttribute('href', '#');
+    link.setAttribute('onclick', 'select_item(' + id + ', true); return false;');
+    link.appendChild(document.createTextNode(item.title));
+
+    var tr = document.createElement('tr');
+    tr.id = id;
+      tr.className = get_play_row_class_from_index(playlist_items.length);
+    var td1 = document.createElement('td');
+    var td2 = document.createElement('td');
+    var td3 = document.createElement('td');
+    td1.appendChild(link);
+    td2.appendChild(document.createTextNode(item.artist));
+    td3.appendChild(document.createTextNode(item.album));
+    tr.appendChild(td1);
+    tr.appendChild(td2);
+    tr.appendChild(td3);
+    t.appendChild(tr);
+
+  document.getElementById('playlist').appendChild(t);
+  document.getElementById('playlist').style.display = 'block';
+  document.getElementById('loading').style.display = 'none';
+
+}
+
+
 // Select the song with the given index. If play_track is true, then the song
 // will be loaded for playing too. (If play_track is false, the song is not
 // loaded and the UI is set to a "pause" state.)
@@ -527,13 +566,13 @@ function select_item(index, play_track) {
   }
   // Highlight the selected row.
   if (current_index !== null) {
-    var current_row = document.getElementById(get_row_id_from_index(current_index));
+    var current_row = document.getElementById('play' + current_index);
     if (current_row) {
       current_row.className = get_row_class_from_index(current_index);
     }
   }
-  document.getElementById(get_row_id_from_index(index)).className = 'selectedrow';
-  var entry = library[displayed_content[index]];
+ // document.getElementById(get_row_id_from_index(index)).className = 'selectedrow';
+  var entry = library[playlist_items[index]];
   var preloaded = entry.key == preload_key;
   if (preloaded) {
     current_audio = preload_audio;
@@ -682,6 +721,10 @@ function update_time() {
   var current_time = current_audio.currentTime;
   var minute = Math.floor(current_time / 60);
   var second = Math.floor(current_time - minute * 60);
+  // chrome does something wierd and not auto plays the next song, kludging around the issue by making anything that's over 120 minutes change songs.
+  if (minute > 120) {
+   next();
+  }
   if (second < 10) {
     second = '0' + second;
   }
@@ -757,3 +800,20 @@ function keypress_handler(e) {
   }
   return true;
 }
+
+
+function add_all_to_playlist () {
+
+for(var song in displayed_content){
+add_item(song,true);
+
+}
+
+}
+
+
+
+
+
+
+

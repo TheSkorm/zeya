@@ -122,7 +122,7 @@ form#search-form input {
     left: 0;
     bottom: 17px;
     right: 0;
-    overflow-y: scroll;
+/*    overflow-y: scroll; */
     padding: 1px;
 }
 
@@ -242,6 +242,18 @@ a:visited {
     color: #00a;
 }
 
+#collection {
+height: 500px;
+    overflow-y: scroll; 
+/*    border-bottom: 1px outset #eeecea; */
+
+}
+
+#playlist {
+    overflow-y: scroll; 
+
+}
+
 table#collection_table {
     width: 100%;
     table-layout: fixed;
@@ -273,4 +285,48 @@ table#collection_table thead td {
     background-color: #eeecea;
     border: 1px outset #eeecea;
     font-weight: bold;
+}
+
+
+
+table#playlist_table {
+    width: 100%;
+    table-layout: fixed;
+    border-spacing: 0;
+}
+
+table#playlist_table tr.oddrow {
+    background-color: #e6e4e2;
+}
+
+table#playlist_table tr.selectedrow {
+    background-color: #46d;
+    color: #fff;
+}
+
+table#playlist_table tr.selectedrow a {
+    color: #fff;
+}
+
+table#playlist_table td {
+    margin: 0;
+    padding: 1px 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+table#playlist_table thead td {
+    background-color: #eeecea;
+    border: 1px outset #eeecea;
+    font-weight: bold;
+}
+
+
+#split {
+height: 100%;
+
+}
+#split .hsplitbar {
+height: 6px;
 }
