@@ -575,11 +575,22 @@ function select_item(index, play_track) {
 while (playlist_items[index] == undefined){
 if (index < playlist_items.length -1) {
 index = index +1;
-} else {
+} else if (is_repeating) {
 index = 0
+} else {
+    current_audio.pause();
+    set_ui_state('pause');
+index = null;
+break;
 }
 } 
 
+if (index == null){
+  set_title('', '');
+set_spinner_visible(false);
+stop() ;
+return;
+}
   // Stop playing the current song.
   if (current_audio !== null) {
     current_audio.pause();
@@ -591,7 +602,7 @@ index = 0
   }
   // Highlight the selected row.
   if (current_index !== null) {
-    var current_row = document.getElementById('play' + current_index);
+    var current_row = document.getElementById(current_index);
     if (current_row) {
       current_row.className = get_row_class_from_index(current_index);
     }
