@@ -91,7 +91,7 @@ form#search-form input {
 }
 
 #footer {
-    position: absolute;
+  /*  position: absolute; */
     bottom: 0;
     left: 0;
     width: 100%;
@@ -99,6 +99,7 @@ form#search-form input {
     overflow: hidden;
     background: #f6f5f4;
     border-top: 1px solid #999;
+float: left;
 }
 
 #footer-left {
@@ -243,15 +244,18 @@ a:visited {
 }
 
 #collection {
-height: 500px;
+width: 50%;
     overflow-y: scroll; 
-/*    border-bottom: 1px outset #eeecea; */
-
+height: auto;
+float: left;
+height: 100%;
 }
 
 #playlist {
     overflow-y: scroll; 
-
+width: 50%;
+height: 100%;
+float: left;
 }
 
 table#collection_table {
@@ -323,10 +327,4 @@ table#playlist_table thead td {
 }
 
 
-#split {
-height: 100%;
 
-}
-#split .hsplitbar {
-height: 6px;
-}

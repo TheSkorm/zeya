@@ -144,7 +144,7 @@ function set_ui_state(new_state) {
     document.getElementById("play_img").className = 'grayed';
     document.getElementById("pause_img").className = 'grayed';
     document.getElementById("next_img").className = 'grayed';
-  } else if (new_state == ',play') {
+  } else if (new_state == 'play') {
     // 'Play' depressed
     document.getElementById("previous_img").className = '';
     document.getElementById("play_img").className = 'activated';
@@ -398,6 +398,11 @@ function repeat() {
 // Toggle the 'shuffled' state of the playlist.
 function shuffle() {
   is_shuffled = !is_shuffled;
+  if (is_shuffled) {
+    document.getElementById("shuffle_img").className = 'activated';
+  } else {
+    document.getElementById("shuffle_img").className = '';
+  }
 }
 
 // Pause the currently playing song.
@@ -521,6 +526,7 @@ function preload_song() {
 }
 
 function add_item(index,stuff) {
+
     id = playlist_items.push(library[displayed_content[index]].key) - 1;
     var t = document.getElementById("playlist_table");
     var item = library[displayed_content[index]];
@@ -547,7 +553,9 @@ function add_item(index,stuff) {
   document.getElementById('playlist').appendChild(t);
   document.getElementById('playlist').style.display = 'block';
   document.getElementById('loading').style.display = 'none';
-
+if (current_index == null) {
+select_item(id, true);
+}
 }
 
 

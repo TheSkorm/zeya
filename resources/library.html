@@ -5,10 +5,6 @@
   <meta http-equiv="X-UA-Compatible" content="chrome=1">
   <link rel="stylesheet" type="text/css" href="zeya.css">
   <link rel="icon" type="image/png" href="favicon.png">
-<link type="text/css" href="css/ui-lightness/jquery-ui-1.8.16.custom.css" rel="Stylesheet" />	
-<script type="text/javascript" src="js/jquery-1.6.2.min.js"></script>
-<script type="text/javascript" src="js/splitter.js"></script>
-<script type="text/javascript" src="js/jquery-ui-1.8.16.custom.min.js"></script>
 	<script>
 	$(function() {
 $("#split").splitter({type: 'h'});
@@ -87,15 +83,7 @@ $("#split").splitter({type: 'h'});
       </div>
     </div>
   </div>
-  <div id="footer">
-    <div id="footer-left">
-      <span id="status_area"></span>
-    </div>
-    <div id="footer-right">
-      Powered by <a href="http://web.psung.name/zeya/" target="_blank">Zeya</a> |
-      <a href="javascript:show_help();">Help</a>
-    </div>
-  </div>
+ 
   <div id="content">
     <div id="loading">Loading collection...</div>
     <div id="unsupported">Zeya requires a browser that supports the HTML 5
@@ -123,10 +111,20 @@ $("#split").splitter({type: 'h'});
 	  <a href="javascript:hide_help()">Close</a>
 	</p>
       </div>
-    </div><div id="split">
-    <div id="collection" style="display: none" class="ui-widget-content"></div>
+    </div>
+    <div id="collection" class="ui-widget-content"></div>
 <div id="playlist"><table id="playlist_table"><thead><td style="width: 42%; ">Playlist</td><td style="width: 29%; "></td><td style="width: 29%; "></td></thead></table></div>
-</div>
+
+ <div id="footer">
+    <div id="footer-left">
+      <span id="status_area"></span>
+    </div>
+    <div id="footer-right">
+      Powered by <a href="http://web.psung.name/zeya/" target="_blank">Zeya</a> |
+      <a href="javascript:show_help();">Help</a>
+    </div>
+  </div>
+
   </div>
 </body>
 </html>
