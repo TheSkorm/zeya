@@ -443,6 +443,9 @@ function set_title(title, artist) {
 
 // Return the index of the next song, with wraparound.
 function next_index() {
+ var current_row = document.getElementById(current_index);
+ current_row.className = get_row_class_from_index(current_index);
+
   if (current_index === null) {
     // Display changed since we began playing.
     if (displayed_content.length > 0) {
@@ -601,12 +604,11 @@ return;
     set_spinner_visible(true);
   }
   // Highlight the selected row.
-  if (current_index !== null) {
-    var current_row = document.getElementById(current_index);
+    var current_row = document.getElementById(index);
     if (current_row) {
-      current_row.className = get_row_class_from_index(current_index);
+      current_row.className = 'selectedrow';
     }
-  }
+ 
  // document.getElementById(get_row_id_from_index(index)).className = 'selectedrow';
   var entry = library[playlist_items[index]];
   var preloaded = entry.key == preload_key;
@@ -660,6 +662,7 @@ return;
 // Load the next song in the list (with wraparound).
 function select_next() {
   next_song_index = next_index();
+
   if (next_song_index !== null) {
     select_item(next_song_index, true);
   }
