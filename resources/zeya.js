@@ -536,18 +536,27 @@ function add_item(index,stuff) {
     link.setAttribute('onclick', 'select_item(' + id + ', true); return false;');
     link.appendChild(document.createTextNode(item.title));
 
+   var del = document.createElement('a');
+    del.setAttribute('href', '#');
+    del.setAttribute('onclick', 'remove_item(' + id + ', true); return false;');
+    del.appendChild(document.createTextNode("R"));
+
+
     var tr = document.createElement('tr');
     tr.id = id;
       tr.className = get_play_row_class_from_index(playlist_items.length);
     var td1 = document.createElement('td');
     var td2 = document.createElement('td');
     var td3 = document.createElement('td');
+    var td4 = document.createElement('td');
     td1.appendChild(link);
     td2.appendChild(document.createTextNode(item.artist));
     td3.appendChild(document.createTextNode(item.album));
+    td4.appendChild(del);
     tr.appendChild(td1);
     tr.appendChild(td2);
     tr.appendChild(td3);
+    tr.appendChild(td4);
     t.appendChild(tr);
 
   document.getElementById('playlist').appendChild(t);
@@ -563,6 +572,14 @@ select_item(id, true);
 // will be loaded for playing too. (If play_track is false, the song is not
 // loaded and the UI is set to a "pause" state.)
 function select_item(index, play_track) {
+while (playlist_items[index] == undefined){
+if (index < playlist_items.length -1) {
+index = index +1;
+} else {
+index = 0
+}
+} 
+
   // Stop playing the current song.
   if (current_audio !== null) {
     current_audio.pause();
@@ -626,6 +643,7 @@ function select_item(index, play_track) {
   } else {
     set_ui_state('pause');
   }
+
 }
 
 // Load the next song in the list (with wraparound).
@@ -819,6 +837,11 @@ add_item(song,true);
 
 }
 
+function remove_item(id) {
+var row = document.getElementById(id);
+row.parentElement.removeChild(row); 
+delete playlist_items[id];
+}
 
 
 
