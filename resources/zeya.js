@@ -854,7 +854,7 @@ add_item(song,true);
 
 function remove_item(id) {
 var row = document.getElementById(id);
-row.parentElement.removeChild(row); 
+row.parentNode.removeChild(row); 
 delete playlist_items[id];
 }
 
