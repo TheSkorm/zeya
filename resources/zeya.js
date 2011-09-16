@@ -851,6 +851,15 @@ add_item(song,true);
 }
 
 }
+  window.onbeforeunload = confirmExit;
+  function confirmExit()
+  {
+   if (current_state == "play"){
+    return "You are currently streaming music. Are you sure you want to leave?";
+} else {
+return
+}
+  }
 
 function remove_item(id) {
 var row = document.getElementById(id);
