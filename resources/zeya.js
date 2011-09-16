@@ -444,6 +444,7 @@ function set_title(title, artist) {
 // Return the index of the next song, with wraparound.
 function next_index() {
  var current_row = document.getElementById(current_index);
+if (current_row)
  current_row.className = get_row_class_from_index(current_index);
 
   if (current_index === null) {
@@ -723,7 +724,7 @@ function stop() {
   set_title('', '');
 }
 
-function show_help() {
+function show_help() {https://github.com/TheSkorm/zeya/commit/9ee4abbb1bbd269015897ff4a6d0c33553dd0c8a
   document.getElementById('helpcontainer').style.display = 'block';
 }
 
@@ -857,7 +858,31 @@ row.parentElement.removeChild(row);
 delete playlist_items[id];
 }
 
-
+function reset_playlist() {
+  playlist_items = [];
+  clear_children(document.getElementById('playlist'));
+  var t = document.createElement('table');
+  t.id = "playlist_table";
+  var t_head = document.createElement("thead");
+  var header_td1 = document.createElement("td");
+  header_td1.style.width = "42%";
+  header_td1.appendChild(document.createTextNode("Title"));
+  var header_td2 = document.createElement("td");
+  header_td2.style.width = "29%";
+  header_td2.appendChild(document.createTextNode("Artist"));
+  var header_td3 = document.createElement("td");
+  header_td3.style.width = "29%";
+  header_td3.appendChild(document.createTextNode("Album"));
+  var header_td4 = document.createElement("td");
+  header_td4.style.width = "22px";
+  header_td4.appendChild(document.createTextNode(""));
+  t_head.appendChild(header_td1);
+  t_head.appendChild(header_td2);
+  t_head.appendChild(header_td3);
+  t_head.appendChild(header_td4);
+  t.appendChild(t_head);
+  document.getElementById('playlist').appendChild(t);
+}
 
 
 
