@@ -576,7 +576,31 @@ select_item(id, true);
 // will be loaded for playing too. (If play_track is false, the song is not
 // loaded and the UI is set to a "pause" state.)
 function select_item(index, play_track) {
-while (playlist_items[index] == undefined){
+
+
+if (playlist_items.length == 0){ //stop playing if there are no songs left
+  set_title('', '');
+set_spinner_visible(false);
+stop() ;
+return;
+}
+
+var there_is_songs = false;
+for (var item in playlist_items){
+if (item != undefined){
+there_is_songs = true;
+break;
+}
+}
+
+if (there_is_songs==false){
+set_title('', '');
+set_spinner_visible(false);
+stop() 
+return; // there are no songs, bail
+}
+
+while (playlist_items[index] == undefined){ //try and find the next defined song to play
 if (index < playlist_items.length -1) {
 index = index +1;
 } else if (is_repeating) {
