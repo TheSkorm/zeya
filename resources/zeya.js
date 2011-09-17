@@ -543,7 +543,12 @@ function add_item(index,stuff) {
    var del = document.createElement('a');
     del.setAttribute('href', '#');
     del.setAttribute('onclick', 'remove_item(' + id + ', true); return false;');
-    del.appendChild(document.createTextNode("R"));
+    var delimg = document.createElement("img");
+    delimg.setAttribute('src', 'deletesong.png');
+delimg.setAttribute('alt', 'Delete Song');
+delimg.setAttribute('height', '10px');
+delimg.setAttribute('width', '10px');
+    del.appendChild(delimg);
 
 
     var tr = document.createElement('tr');
