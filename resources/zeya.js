@@ -185,7 +185,6 @@ function compute_displayed_content(current_playlist, search_query, shuffle) {
   if (current_index !== null) {
     currently_playing_song_key = library[displayed_content[current_index]].key;
   }
-  current_index = null;
 
   // Apply the search filter.
   for (var index = 0; index < current_playlist.length; index++) {
@@ -200,15 +199,7 @@ function compute_displayed_content(current_playlist, search_query, shuffle) {
   }
 
 
-  // Fix current_index so it points to the currently playing song in the
-  // new collection.
-  for (var i = 0; i < content.length; i++) {
-    var item = library[content[i]];
-    if (item.key == currently_playing_song_key) {
-      current_index = i;
-    }
-  }
-
+ 
   displayed_content = content;
 }
 
@@ -585,7 +576,7 @@ delimg.setAttribute('width', '10px');
   document.getElementById('playlist').appendChild(t);
   document.getElementById('playlist').style.display = 'block';
   document.getElementById('loading').style.display = 'none';
-if (current_index == null) {
+if (current_audio == null) {
 select_item(id, true);
 }
 }
