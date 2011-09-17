@@ -326,5 +326,7 @@ table#playlist_table thead td {
     font-weight: bold;
 }
 
-
+img {
+   border: none;
+}
 

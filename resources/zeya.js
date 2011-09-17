@@ -239,7 +239,8 @@ function render_collection() {
     link.appendChild(document.createTextNode(item.title));
 
 
-    var tr = document.createElement('tr');
+    var tr = document.createElement('tr');	
+    tr.className = get_row_class_from_index(index);
 
     tr.class = index;
     var td1 = document.createElement('td');
@@ -538,7 +539,7 @@ delimg.setAttribute('width', '10px');
 
     var tr = document.createElement('tr');
     tr.id = id;
-      tr.className = get_play_row_class_from_index(playlist_items.length);
+    tr.className = get_play_row_class_from_index(playlist_items.length);
     var td1 = document.createElement('td');
     var td2 = document.createElement('td');
     var td3 = document.createElement('td');
@@ -559,6 +560,7 @@ delimg.setAttribute('width', '10px');
 if (current_audio == null) {
 select_item(id, true);
 }
+fix_playlist_colors();
 }
 
 
@@ -618,11 +620,10 @@ return;
   if (play_track) {
     set_spinner_visible(true);
   }
+  current_index = index;
   // Highlight the selected row.
-    var current_row = document.getElementById(index);
-    if (current_row) {
-      current_row.className = 'selectedrow';
-    }
+fix_playlist_colors();
+
  
  // document.getElementById(get_row_id_from_index(index)).className = 'selectedrow';
   var entry = library[playlist_items[index]];
@@ -642,7 +643,7 @@ return;
       current_audio.setAttribute('autoplay', 'true');
     }
   }
-  current_index = index;
+
   // Hide the spinner when the song has loaded.
   current_audio.addEventListener(
     'play', function() {set_spinner_visible(false);}, false);
@@ -879,6 +880,7 @@ function remove_item(id) {
 var row = document.getElementById(id);
 row.parentNode.removeChild(row); 
 delete playlist_items[id];
+fix_playlist_colors()
 }
 
 function reset_playlist() {
@@ -909,4 +911,21 @@ function reset_playlist() {
 
 
 
-
+function fix_playlist_colors() {
+/* I know this is costly, but I'm lazy. */
+	var count = 1;
+	for (id=0;id<=playlist_items.length-1;id++){
+		if (playlist_items[id] != undefined){
+			get_play_row_class_from_index(count);
+			var row = document.getElementById(id);
+			if (row) {
+			      row.className = get_play_row_class_from_index(count);
+			}
+			count = count + 1
+		}
+	}
+	var current_row = document.getElementById(current_index);
+	if (current_row) {
+	     current_row.className = 'selectedrow';
+	}
+}
