@@ -242,7 +242,7 @@ function render_collection() {
     var tr = document.createElement('tr');	
     tr.className = get_row_class_from_index(index);
 
-    tr.class = index;
+   // tr.class = index;
     var td1 = document.createElement('td');
     var td2 = document.createElement('td');
     var td3 = document.createElement('td');
