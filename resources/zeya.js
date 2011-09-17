@@ -247,11 +247,7 @@ function render_collection() {
 
 
     var tr = document.createElement('tr');
-    if (current_index == index) {
-      tr.className = 'selectedrow';
-    } else {
-      tr.className = get_row_class_from_index(index);
-    }
+
     tr.class = index;
     var td1 = document.createElement('td');
     var td2 = document.createElement('td');
@@ -269,15 +265,6 @@ function render_collection() {
   document.getElementById('collection').style.display = 'block';
   document.getElementById('playlist').style.display = 'block';
   document.getElementById('loading').style.display = 'none';
-
-  // Ensure that the selected song is visible in the window.
-  if (current_index !== null) {
-    // If possible, show some songs before the selected song, so that it
-    // doesn't appear at the top of the window.
-    var top_displayed_index = Math.max(0, current_index - 3);
-    document.getElementById(
-      get_row_id_from_index(top_displayed_index)).scrollIntoView();
-  }
 
   status_info.displayed_tracks = index;
   update_status_area();
