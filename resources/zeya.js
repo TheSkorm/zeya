@@ -179,13 +179,6 @@ function set_ui_state(new_state) {
 function compute_displayed_content(current_playlist, search_query, shuffle) {
   var content = [];
 
-  // Extract the key corresponding to the current song so we can identify it
-  // again later. The key is invariant, unlike current_index.
-  var currently_playing_song_key = null;
-  if (current_index !== null) {
-    currently_playing_song_key = library[displayed_content[current_index]].key;
-  }
-
   // Apply the search filter.
   for (var index = 0; index < current_playlist.length; index++) {
     var key = current_playlist[index];
