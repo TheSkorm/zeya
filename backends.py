@@ -63,19 +63,25 @@ class StreamGenerationError(Exception):
     def __str__(self):
         return self.msg
 
-def filename_to_stream(filename, out_stream, bitrate, buffered=False):
+def filename_to_stream(filename, out_stream, bitrate, mp3=False, buffered=False):
     print "Handling request for %s" % (filename,)
     try:
         decode_command = decoders.get_decoder(filename)
     except KeyError:
         raise StreamGenerationError(
             "Couldn't play specified format: %r" % (filename,))
-    encoder_path = "/usr/bin/oggenc"
+    if mp3:
+        encoder_path = "/usr/bin/lame"
+    else:
+        encoder_path = "/usr/bin/oggenc"
     if not os.path.exists(encoder_path):
         raise StreamGenerationError(
-            ("No Vorbis encoder found at %s. " % (encoder_path,)) + \
-                "Please install 'vorbis-tools'.")
-    encode_command = [encoder_path, "-r", "-Q", "-b", str(bitrate), "-"]
+            ("No Vorbis/MP3 encoder found at %s. " % (encoder_path,)) + \
+                "Please install 'vorbis-tools or lame'.")
+    if not mp3:
+        encode_command = [encoder_path, "-r", "-Q", "-b", str(bitrate), "-"]
+    else:
+        encode_command = [encoder_path, "-r", "-S", "-b", str(bitrate), "-"]
     # Pipe the decode command into the encode command.
     p1 = subprocess.Popen(decode_command, stdout=subprocess.PIPE)
     if buffered:
@@ -187,7 +193,7 @@ class LibraryBackend():
         """
         raise NotImplementedError()
 
-    def get_content(self, key, out_stream, bitrate, buffered=False):
+    def get_content(self, key, out_stream, bitrate, mp3=False, buffered=False):
         """
         Retrieve the file data associated with the specified key and write an
         audio/ogg encoded version to out_stream.
@@ -198,7 +204,7 @@ class LibraryBackend():
         except KeyError:
             print "Received invalid request for key %r" % (key,)
         try:
-            filename_to_stream(filename, out_stream, bitrate, buffered)
+            filename_to_stream(filename, out_stream, bitrate, mp3, buffered)
         except StreamGenerationError, e:
             print "Error: %s" % (e,)
 

@@ -44,13 +44,14 @@ var using_gecko_1_9_1 = navigator.userAgent.indexOf("Gecko/") > -1
 
 // Return true if the client supports the <audio> tag.
 function can_play_native_audio() {
-  if (!document.createElement('audio').canPlayType) {
-    return false;
-  }
+//  if (!document.createElement('audio').canPlayType) {
+//    return false;
+//  }
   // Supported browsers will return 'probably' or 'maybe' here
-  var can_play = document.createElement('audio').canPlayType(
-    'audio/ogg; codecs="vorbis"');
-  return can_play != '';
+//  var can_play = document.createElement('audio').canPlayType(
+//    'audio/ogg; codecs="vorbis"');
+//  return can_play != '';
+return true;
 }
 
 // Clear all the children of c.
@@ -263,6 +264,7 @@ function render_collection() {
 
   document.getElementById('collection').appendChild(t);
   document.getElementById('collection').style.display = 'block';
+  document.getElementById('playlist').style.display = 'block';
   document.getElementById('loading').style.display = 'none';
 
   // Ensure that the selected song is visible in the window.
