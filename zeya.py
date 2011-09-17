@@ -174,17 +174,18 @@ def ZeyaHandler(backend, library_repr, resource_basedir, bitrate,
             # whole thing. However, Chrome needs the Content-Length header to
             # accompany audio data.
             buffered = args['buffered'][0] if args.has_key('buffered') else ''
+            self.send_response(200)
             mp3 = args['mp3'][0] if args.has_key('mp3') else ''
             if mp3:
                 mp3=True
                 self.send_header('Content-type', 'audio/mp3')
             else:
                 mp3=False 
-                self.send_header('Content-type', 'audio/mp3')
+                self.send_header('Content-type', 'audio/ogg')
             # TODO: send error 500 when we encounter an error during the
             # decoding phase. This is needed for reliable client-side error
             # dialogs.
-            self.send_response(200)
+
 
             if buffered:
                 # Complete the transcode and write to a temporary file.
