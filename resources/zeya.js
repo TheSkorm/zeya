@@ -3,6 +3,7 @@
 // Map from song key to library item. Each library item is an object with
 // attributes .title, .artist, .album, and .key.
 var library;
+var mp3mode = false;
 var playlist_items = [];
 // Representation of the set of available playlists. Maps a playlist ID to a
 // list of song keys representing that playlist.
@@ -44,14 +45,22 @@ var using_gecko_1_9_1 = navigator.userAgent.indexOf("Gecko/") > -1
 
 // Return true if the client supports the <audio> tag.
 function can_play_native_audio() {
-//  if (!document.createElement('audio').canPlayType) {
-//    return false;
-//  }
+  if (!document.createElement('audio').canPlayType) {
+    return false;
+ }
   // Supported browsers will return 'probably' or 'maybe' here
-//  var can_play = document.createElement('audio').canPlayType(
-//    'audio/ogg; codecs="vorbis"');
-//  return can_play != '';
+  var can_play = document.createElement('audio').canPlayType(
+    'audio/ogg; codecs="vorbis"');
+if (can_play != "") {
 return true;
+}
+  var can_play = document.createElement('audio').canPlayType(
+    'audio/mp3');
+if (can_play != "") {
+mp3mode = true;
+return true;
+}
+return false;
 }
 
 // Clear all the children of c.
@@ -105,9 +114,12 @@ function plural(number) {
 function get_stream(key) {
 //  var buffer_param = using_webkit ? 'buffered=true&' : '';
 var buffer_param = '';
-  return new Audio('getcontent?' + buffer_param + 'key=' + escape(key));
+if (mp3mode == true){
+  return new Audio('getcontent?' + buffer_param + '&mp3=true&' + 'key=' + escape(key));
+} else {
+  return new Audio('getcontent?' + buffer_param + 'key=' + escape(key))
 }
-
+}
 function update_status_area() {
   var status_area = document.getElementById('status_area');
   var status_text = status_info.displayed_tracks + ' track'

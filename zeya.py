@@ -177,13 +177,15 @@ def ZeyaHandler(backend, library_repr, resource_basedir, bitrate,
             mp3 = args['mp3'][0] if args.has_key('mp3') else ''
             if mp3:
                 mp3=True
+                self.send_header('Content-type', 'audio/mp3')
             else:
                 mp3=False 
+                self.send_header('Content-type', 'audio/mp3')
             # TODO: send error 500 when we encounter an error during the
             # decoding phase. This is needed for reliable client-side error
             # dialogs.
             self.send_response(200)
-            self.send_header('Content-type', 'audio/ogg')
+
             if buffered:
                 # Complete the transcode and write to a temporary file.
                 # Determine its length and serve the Content-Length header.
