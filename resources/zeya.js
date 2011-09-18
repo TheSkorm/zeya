@@ -5,6 +5,7 @@
 var library;
 var mp3mode = false;
 var playlist_items = [];
+var spectowindow = [];
 // Representation of the set of available playlists. Maps a playlist ID to a
 // list of song keys representing that playlist.
 var playlist_map = {};
@@ -798,6 +799,9 @@ function update_time() {
   var current_time = current_audio.currentTime;
   var minute = Math.floor(current_time / 60);
   var second = Math.floor(current_time - minute * 60);
+  if (spectowindow){
+  spectowindow.c = current_audio.currentTime * 10;
+  }
   // chrome does something wierd and not auto plays the next song, kludging around the issue by making anything that's over 120 minutes change songs.
   if (minute > 120) {
    next();
@@ -1000,4 +1004,8 @@ function down_item(id) {
 			break;
 		}
 	}
+}
+function specto() {
+spectowindow = window.open("specto.html", "Spectogram", "height=200, width=200")
+spectowindow.songid = playlist_items[current_index];
 }
