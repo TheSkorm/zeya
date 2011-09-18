@@ -523,12 +523,12 @@ function add_item(index,stuff) {
 
     var link = document.createElement('a');
     link.setAttribute('href', '#');
-    link.setAttribute('onclick', 'select_item(' + id + ', true); return false;');
+    link.setAttribute('onclick', 'select_item(this.parentNode.parentNode.id, true); return false;');
     link.appendChild(document.createTextNode(item.title));
 
    var del = document.createElement('a');
     del.setAttribute('href', '#');
-    del.setAttribute('onclick', 'remove_item(' + id + ', true); return false;');
+    del.setAttribute('onclick', 'remove_item(this.parentNode.parentNode.id, true); return false;');
     var delimg = document.createElement("img");
     delimg.setAttribute('src', 'deletesong.png');
 delimg.setAttribute('alt', 'Delete Song');
@@ -544,14 +544,33 @@ delimg.setAttribute('width', '10px');
     var td2 = document.createElement('td');
     var td3 = document.createElement('td');
     var td4 = document.createElement('td');
+
+    var td5 = document.createElement('td');
+    var td6 = document.createElement('td');
+
+    var up = document.createElement('a');
+    up.setAttribute('href', '#');
+    up.setAttribute('onclick', 'up_item(this.parentNode.parentNode.id); return false;');
+    up.appendChild(document.createTextNode("U"));
+
+    var down = document.createElement('a');
+    down.setAttribute('href', '#');
+    down.setAttribute('onclick', 'down_item(this.parentNode.parentNode.id); return false;');
+    down.appendChild(document.createTextNode("D"));
+
+
     td1.appendChild(link);
     td2.appendChild(document.createTextNode(item.artist));
     td3.appendChild(document.createTextNode(item.album));
-    td4.appendChild(del);
+    td4.appendChild(up);
+    td5.appendChild(down);
+    td6.appendChild(del);
     tr.appendChild(td1);
     tr.appendChild(td2);
     tr.appendChild(td3);
     tr.appendChild(td4);
+    tr.appendChild(td5);
+    tr.appendChild(td6);
     t.appendChild(tr);
 
   document.getElementById('playlist').appendChild(t);
@@ -795,7 +814,7 @@ function cleanup() {
   if (current_audio !== null) {
     current_audio.pause();
   }
-}
+} 
 
 function keydown_handler(e) {
   var keynum;
@@ -898,13 +917,25 @@ function reset_playlist() {
   var header_td3 = document.createElement("td");
   header_td3.style.width = "29%";
   header_td3.appendChild(document.createTextNode("Album"));
+
   var header_td4 = document.createElement("td");
   header_td4.style.width = "22px";
   header_td4.appendChild(document.createTextNode(""));
+
+  var header_td5 = document.createElement("td");
+  header_td5.style.width = "22px";
+  header_td5.appendChild(document.createTextNode(""));
+
+  var header_td6 = document.createElement("td");
+  header_td6.style.width = "22px";
+  header_td6.appendChild(document.createTextNode(""));
+
   t_head.appendChild(header_td1);
   t_head.appendChild(header_td2);
   t_head.appendChild(header_td3);
   t_head.appendChild(header_td4);
+  t_head.appendChild(header_td5);
+  t_head.appendChild(header_td6);
   t.appendChild(t_head);
   document.getElementById('playlist').appendChild(t);
 }
@@ -928,4 +959,28 @@ function fix_playlist_colors() {
 	if (current_row) {
 	     current_row.className = 'selectedrow';
 	}
+}
+
+
+function movesong(ida, idb) {
+var a = document.getElementById(ida).cloneNode(true);
+var b = document.getElementById(idb).cloneNode(true);
+a.id = idb;
+b.id = ida;
+sida = playlist_items[ida];
+sidb = playlist_items[idb];
+playlist_items[ida] = sidb;
+playlist_items[idb] = sida;
+
+document.getElementById("playlist_table").replaceChild(a, document.getElementById(idb));
+document.getElementById("playlist_table").replaceChild(b, document.getElementById(ida));
+fix_playlist_colors();
+}
+function up_item(id) {
+movesong(id, Number(id) - 1);
+}
+function down_item(id) {
+
+movesong(id, Number(id) + 1);
+
 }
