@@ -548,15 +548,28 @@ delimg.setAttribute('width', '10px');
     var td5 = document.createElement('td');
     var td6 = document.createElement('td');
 
+
     var up = document.createElement('a');
     up.setAttribute('href', '#');
     up.setAttribute('onclick', 'up_item(this.parentNode.parentNode.id); return false;');
-    up.appendChild(document.createTextNode("U"));
+    var upimg = document.createElement("img");
+    upimg.setAttribute('src', 'up.png');
+    upimg.setAttribute('alt', 'Move song up');
+    upimg.setAttribute('height', '10px');
+    upimg.setAttribute('width', '10px');
+    up.appendChild(upimg);
+
 
     var down = document.createElement('a');
     down.setAttribute('href', '#');
     down.setAttribute('onclick', 'down_item(this.parentNode.parentNode.id); return false;');
-    down.appendChild(document.createTextNode("D"));
+    var downimg = document.createElement("img");
+    downimg.setAttribute('src', 'down.png');
+    downimg.setAttribute('alt', 'Move song down');
+    downimg.setAttribute('height', '10px');
+    downimg.setAttribute('width', '10px');
+    down.appendChild(downimg);
+
 
 
     td1.appendChild(link);
@@ -977,10 +990,18 @@ document.getElementById("playlist_table").replaceChild(b, document.getElementByI
 fix_playlist_colors();
 }
 function up_item(id) {
-movesong(id, Number(id) - 1);
+	for (i=id-1;i>=0;i--){
+		if (playlist_items[i]!=undefined){
+			movesong(id, i);
+			break;
+		}
+	}
 }
 function down_item(id) {
-
-movesong(id, Number(id) + 1);
-
+	for (i=Number(id)+1;i<=playlist_items.length;i++){
+		if (playlist_items[i]!=undefined){
+			movesong(id, i);
+			break;
+		}
+	}
 }
