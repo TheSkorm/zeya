@@ -429,10 +429,6 @@ function set_title(title, artist) {
 
 // Return the index of the next song, with wraparound.
 function next_index() {
- var current_row = document.getElementById(current_index);
-if (current_row)
- current_row.className = get_row_class_from_index(current_index);
-
   if (current_index === null) {
     // Display changed since we began playing.
     if (displayed_content.length > 0) {
@@ -455,21 +451,14 @@ if (current_row)
 
 // Return the index of the next song, with wraparound.
 function previous_index() {
-  if (current_index === null) {
-    // Display changed since we began playing.
-    if (displayed_content.length > 0) {
-      return 0;
-    } else {
-      return null;
-    }
-  }
+ 
+for (i=current_index-1;i>=0;i--){
+		if (playlist_items[i]!=undefined){
+			return i;
+			break;
+		}
+	}
 
-  // If on the last row, go back to the first.
-  if (current_index == 0) {
-    return displayed_content.length - 1;
-  } else {
-    return current_index - 1;
-  }
 }
 
 // Invokes callback after audio_elt has finished loading.
