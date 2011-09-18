@@ -976,6 +976,13 @@ function fix_playlist_colors() {
 
 
 function movesong(ida, idb) {
+
+//fix current_inex to point to the right song after move.
+if (ida == current_index){
+current_index = idb;
+} else if (idb == current_index){
+current_index = ida;
+}
 var a = document.getElementById(ida).cloneNode(true);
 var b = document.getElementById(idb).cloneNode(true);
 a.id = idb;
