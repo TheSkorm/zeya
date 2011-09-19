@@ -5,14 +5,14 @@ var c = 0
 function move()
 {
 t=setTimeout("move()",100);
-document.getElementById("specto").style.left = document.getElementById("slider").offsetWidth - 57 - (c*5/100) // TODO get this value to be "right" too tired.
-c = c +1
+document.getElementById("specto").style.left = document.getElementById("slider").offsetWidth - 57 - (c)  // TODO get this value to be "right" too tired.
 }
 move();
 
 </script>
 <style>
 body {
+background-color: black;
 overflow:hidden;
 margin-bottom: 0px;
 margin-left: 0px;
@@ -35,7 +35,7 @@ float: right;
 </style>
 </head>
 <body><div id="holder">
-<div id="slider">aaa</div>
+<div id="slider"></div>
 </div>
 <script>
 var simg = document.createElement("img");

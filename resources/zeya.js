@@ -3,6 +3,7 @@
 // Map from song key to library item. Each library item is an object with
 // attributes .title, .artist, .album, and .key.
 var library;
+var newImage = [];
 var mp3mode = false;
 var playlist_items = [];
 var spectowindow = [];
@@ -585,13 +586,22 @@ select_item(id, true);
 fix_playlist_colors();
 }
 
+function spectoload(){
+var simg = document.getElementById("specto");
+newImage.id = "specto";
+simg.parentNode.replaceChild(newImage, simg);
+}
 
 // Select the song with the given index. If play_track is true, then the song
 // will be loaded for playing too. (If play_track is false, the song is not
 // loaded and the UI is set to a "pause" state.)
 function select_item(index, play_track) {
-
-
+var simg = document.getElementById("specto");
+newImage = new Image();
+newImage.onLoad=spectoload();
+newImage.src = "/getspecto?key=" + playlist_items[index];
+//simg.src = '/getspecto?key=' + playlist_items[index];
+simg.src = 'spinner.gif';
 if (playlist_items.length == 0){ //stop playing if there are no songs left
   set_title('', '');
 set_spinner_visible(false);
@@ -646,6 +656,8 @@ return;
   // Highlight the selected row.
 fix_playlist_colors();
 
+
+
  
  // document.getElementById(get_row_id_from_index(index)).className = 'selectedrow';
   var entry = library[playlist_items[index]];
@@ -694,6 +706,7 @@ fix_playlist_colors();
   } else {
     set_ui_state('pause');
   }
+
 
 }
 
@@ -799,9 +812,10 @@ function update_time() {
   var current_time = current_audio.currentTime;
   var minute = Math.floor(current_time / 60);
   var second = Math.floor(current_time - minute * 60);
-  if (spectowindow){
-  spectowindow.c = current_audio.currentTime * 10;
-  }
+document.getElementById("specto").style.left = document.getElementById("slider").offsetWidth - 57 - (current_time * 10)  + "px"
+ // if (spectowindow){
+  //spectowindow.c = current_audio.currentTime * 10;
+ // }
   // chrome does something wierd and not auto plays the next song, kludging around the issue by making anything that's over 120 minutes change songs.
   if (minute > 120) {
    next();
@@ -1005,7 +1019,18 @@ function down_item(id) {
 		}
 	}
 }
-function specto() {
-spectowindow = window.open("specto.html", "Spectogram", "height=200, width=200")
-spectowindow.songid = playlist_items[current_index];
+function open_specto() {
+//spectowindow = window.open("specto.html", "Spectogram", "height=593, width=800")
+//spectowindow.songid = playlist_items[current_index];
+if (document.getElementById('spectogramdisplay').style.display == "none"){
+document.getElementById('spectogramdisplay').style.display = 'block';
+document.getElementById("specto_img").className = 'activated';
+document.getElementById("collection").style.height = "50%"
+document.getElementById("playlist").style.height = "50%"
+} else{
+document.getElementById('spectogramdisplay').style.display = 'none';
+document.getElementById("specto_img").className = '';
+document.getElementById("collection").style.height = "100%"
+document.getElementById("playlist").style.height = "100%"
+}
 }

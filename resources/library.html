@@ -60,8 +60,8 @@
       <div id="scrubber-box">
 	<div id="time-text-field"></div>
       </div>
-      <span id="specto" class="control">
-	<img id="specto_img" src="deleteplaylist.png" onclick="specto()" title="Specto">
+      <span id="spectoicon" class="control">
+	<img id="specto_img" src="deleteplaylist.png" onclick="open_specto()" title="Specto">
       </span>
       <span id="resetplaylist" class="control">
 	<img id="reset_img" src="deleteplaylist.png" onclick="reset_playlist()" title="Reset Playlist">
@@ -116,7 +116,9 @@
     <div id="collection" style="display: none"></div>
 <div id="playlist" style="display: none"><table id="playlist_table"><thead><td style="width: 42%; ">Title</td><td style="width: 29%; ">Artist</td><td style="width: 29%; ">Album</td><td style="width: 22px; "></td><td style="width: 22px; "></td><td style="width: 22px; "></td></thead></table></div>
 
+<div id="spectogramdisplay" style="display: none"><div id="slider">a</div><img id="specto" src=""></div>
  <div id="footer">
+
     <div id="footer-left">
       <span id="status_area"></span>
     </div>
@@ -125,7 +127,6 @@
       <a href="javascript:show_help();">Help</a>
     </div>
   </div>
-
   </div>
 </body>
 </html>

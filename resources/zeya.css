@@ -102,6 +102,7 @@ form#search-form input {
 float: left;
 }
 
+
 #footer-left {
     padding: 1px;
     width: 50%;
@@ -254,9 +255,10 @@ height: 100%;
 #playlist {
     overflow-y: scroll; 
 width: 50%;
-height: 100%;
+height: auto;
 float: left;
 }
+
 
 table#collection_table {
     width: 100%;
@@ -330,3 +332,21 @@ img {
    border: none;
 }
 
+#slider{
+background-color: black;
+width: 100%;
+float: left;
+}
+#specto {
+position:absolute; 
+float: right;
+}
+
+#spectogramdisplay{
+/*position:absolute; */
+width: 100%;
+float: left;
+bottom: 0px;
+height: 50%;
+background: black;
+}

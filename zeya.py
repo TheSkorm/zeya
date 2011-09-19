@@ -166,7 +166,7 @@ def ZeyaHandler(backend, library_repr, resource_basedir, bitrate,
         def genspecto(self, query):
             args = parse_qs(query)
             key = args['key'][0] if args.has_key('key') else ''
-            os.system("sox \""+backend.get_filename_from_key(key)+"\" -c 1 -n spectrogram -x5000 -X 10 -a -o /tmp/zeyaspecto"+key+".png")
+            os.system("sox \""+backend.get_filename_from_key(key)+"\" -c 2 -n spectrogram -m -Y 550 -x5000 -X 10 -a -o /tmp/zeyaspecto"+key+".png")
             self.send_response(200)
             self.send_header('Content-type', 'image/png')
             f = open("/tmp/zeyaspecto"+key+".png", 'r')
