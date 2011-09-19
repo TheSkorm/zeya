@@ -52,6 +52,10 @@
       <span id="next_button" class="control">
 	<img id="next_img" src="next.png" alt="Next" onclick="next()" title="Next">
       </span>
+      <span id="volume" class="control">
+<input type="range"  min="0" max="1" step=any id="volumecontrol" onchange="current_audio.volume = volumecontrol.value;" />
+      </span>
+
       <span id="spinner">
 	<img id="spinner_icon" src="spinner.gif" style="visibility: hidden;">
       </span>
