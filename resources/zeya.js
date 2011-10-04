@@ -447,7 +447,7 @@ function next_index() {
     if (is_shuffled){
     return Math.round(Math.random() * (playlist_items.length-1));
     } else {
-    return current_index + 1;}
+    return parseInt(current_index) + 1;}
   }
 }
 
